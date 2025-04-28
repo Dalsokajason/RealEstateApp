@@ -10,7 +10,7 @@
         <th>ID</th>
         <th>Address</th>
         <th>Listed Price</th>
-        <th>Agent</th>
+        <th>Listing Agent</th>
         <th>Lising Client</th>
     </tr>
     {% for property in properties %}
@@ -20,6 +20,7 @@
         <th>${{property.price}}</th>
         <th>{{property.client.agent.name}}</th>
         <th>{{property.client.name}}</th>
+        <th><a href="/purchase_property/{{ property.property_id }}">Purchase</a></th>
     </tr>
     {% endfor %}
 </table>

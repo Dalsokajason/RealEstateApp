@@ -17,10 +17,10 @@
         {% for transaction in transactions %}
         <tr>
             <th>{{transaction.date}}</th>
-            {% if transaction.transaction_type %}
-                <th>BOUGHT</th>
+            {% if transaction.transaction_type%}
+            <th>BOUGHT</th>
             {% else %}
-                <th>SOLD</th>
+            <th>SOLD</th>
             {% endif %}
             <th>{{transaction.property.address}}</th>
             <th>{{transaction.agent.name}}</th>

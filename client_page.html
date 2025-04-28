@@ -15,9 +15,16 @@
     <tr>
         <th>Date</th>
         <th style="width:200px">Type</th>
-        <th>Property</th>
-        <th>Agent</th>
+        <th style="width:200px">Property</th>
+        <th style="width:200px">Agent</th>
     </tr>
+    {% if transactions | length ==0 %}
+    <tr>
+        <th></th>
+        <th>You have no transactions</th>
+        <th></th>
+    </tr>
+    {% else %}
     {% for transaction in transactions %}
     <tr>
         <th>{{transaction.date}}</th>
@@ -30,11 +37,32 @@
         <th>{{transaction.agent.name}}</th>
     </tr>
     {% endfor %}
+    {% endif %}
 </table>
 <br>
 
 <h1>Listed Properties</h1>
+<table>
+    <tr>
+        <th style="width:500px">Address</th>
+        <th style="width:100px">Listed Price</th>
+        <th style="width:100px"></th>
+    </tr>
+    {% if properties | length == 0 %}
+    <tr>
+        <th>You have no properties.</th>
+    </tr>
+    {% else %}
+    {% for property in properties %}
+    <tr>
+        <th>{{property.address}}</th>
+        <th>${{property.price}}</th>
 
+        <th><a href="/removeProperty/{{ property.property_id }}">Remove</a></th>
+    </tr>
+    {% endfor %}
+    {% endif %}
+</table>
 <h3>Add a property</h3>
 <form method="POST" action="{{ url_for('addProperty', client_id=client.client_id) }}">
     <label for="address">Address:</label>
@@ -46,23 +74,6 @@
     </button>
 </form>
 <br>
-<table>
-    <tr>
-        <th style="width:500px">Address</th>
-        <th>Listed Price</th>
-    </tr>
-    {% if properties | length == 0 %}
-    <tr>
-        <th>You have no properties.</th>
-    </tr>
-    {% else %}
-    {% for property in properties %}
-    <tr>
-        <th>{{property.address}}</th>
-        <th>${{property.price}}</th>
-    </tr>
-    {% endfor %}
-    {% endif %}
-</table>
+<br>
 
 {% endblock %}

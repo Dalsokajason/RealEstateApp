@@ -1,10 +1,10 @@
 #imports
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import aliased
-from sqlalchemy import and_
+#from sqlalchemy.orm import aliased
+from sqlalchemy import and_, func
 from datetime import datetime
-import mysql.connector
+#import mysql.connector
 
 #Define App
 app = Flask(__name__)
@@ -82,14 +82,6 @@ class Transaction(db.Model):
     #Transaction involves property
     property = db.relationship('Property')
 
-#db = mysql.connector.connect(
-#    host = 'localhost',
- #   user = 'root',
-  #  password = 'password',
-   # database = 'customer_relationship_management_system'
-#)
-    
-
 @app.route("/", methods=["GET"])
 def index():
     return render_template("index.html")
@@ -105,6 +97,87 @@ def signIn():
         return redirect(url_for("client_page", client_id=userId))
     else:
         return "User Not Found"
+    
+@app.route("/client_sign_up_page", methods=["GET", "POST"])
+def client_sign_up_page():
+    agents = Agent.query.all()
+    return render_template("client_sign_up_page.html", agents=agents)
+
+@app.route("/clientSignUp", methods=["POST"])
+def clientSignUp():
+    userName = request.form['userName']
+    userPhone = request.form['userPhone']
+    userEmail = request.form['userEmail']
+    userAgentId = request.form['userAgentId']
+
+    userMaxId = db.session.query(func.max(Client.client_id)).scalar()
+    client_id = userMaxId + 1
+
+    contactMaxId = db.session.query(func.max(ContactInfo.contactInfoID)).scalar()
+    client_contact_info_id = contactMaxId + 1
+
+    agent = Agent.query.get(userAgentId)
+    agent_id = agent.agentID
+
+    new_contactInfo = ContactInfo(
+        contactInfoID=client_contact_info_id,
+        phoneNumber=userPhone,
+        email_address=userEmail
+    )
+
+    new_client = Client(
+        client_id=client_id,
+        name=userName,
+        client_contact_info_id=client_contact_info_id,
+        agent_id=agent_id
+    )
+
+    db.session.add(new_contactInfo)
+    db.session.commit()
+    db.session.add(new_client)
+    db.session.commit()
+
+    return redirect(url_for("client_page", client_id=client_id))
+
+@app.route("/agent_sign_up_page", methods=["GET", "POST"])
+def agent_sign_up_page():
+    firms = Firm.query.all()
+    return render_template("agent_sign_up_page.html", firms=firms)
+
+@app.route("/agentSignUp", methods=["POST"])
+def agentSignUp():
+    userName = request.form['userName']
+    userPhone = request.form['userPhone']
+    userEmail = request.form['userEmail']
+    userFirm = request.form['userFirm']
+    userCommission = request.form['userCommission']
+
+    agentMaxId = db.session.query(func.max(Client.client_id)).scalar()
+    agentID = agentMaxId + 1
+
+    contactMaxId = db.session.query(func.max(ContactInfo.contactInfoID)).scalar()
+    agent_contact_info_id = contactMaxId + 1
+
+    new_contactInfo = ContactInfo(
+        contactInfoID=agent_contact_info_id,
+        phoneNumber=userPhone,
+        email_address=userEmail
+    )
+
+    new_agent = Agent(
+        agentID=agentID,
+        name=userName,
+        agent_contact_info_id=agent_contact_info_id,
+        commission_rate=userCommission,
+        agent_firm_id=userFirm
+    )
+
+    db.session.add(new_contactInfo)
+    db.session.commit()
+    db.session.add(new_agent)
+    db.session.commit()
+
+    return redirect(url_for("agent_page", agent_id=agentID))
 
 @app.route("/agent_page/<int:agent_id>")
 def agent_page(agent_id):
@@ -142,11 +215,13 @@ def client_page(client_id):
 
 @app.route("/client_page/<int:client_id>/addProperty", methods=["POST"])
 def addProperty(client_id):
-    client = Client.query.get(client_id)
+    propertyMaxId = db.session.query(func.max(Property.property_id)).scalar()
+    property_id = propertyMaxId + 1
     address = request.form['address']
     price = float(request.form['price'])
 
     new_property = Property( 
+        property_id=property_id,
         address=address, 
         price=price, 
         property_client_id=client_id)
@@ -155,6 +230,16 @@ def addProperty(client_id):
     db.session.commit()
 
     return redirect(url_for('client_page', client_id=client_id))
+
+@app.route("/removeProperty/<int:property_id>")
+def removeProperty(property_id):
+    property = Property.query.get(property_id)
+    client_id = property.property_client_id
+    db.session.delete(property)
+    db.session.commit()
+
+    return redirect(url_for('client_page', client_id=client_id))
+
 
 @app.route("/agents")
 def agents():
@@ -166,6 +251,53 @@ def properties():
     properties = db.session.query(Property).outerjoin(Transaction).filter(
         Transaction.transaction_property_id == None).all()
     return render_template("properties.html", properties=properties)
+
+@app.route("/purchase_property/<int:property_id>", methods=["GET", "POST"])
+def purchase_property(property_id):
+    property = Property.query.get(property_id)
+    return render_template("purchase_property.html", property=property)
+
+@app.route("/purchaseProperty/<int:property_id>", methods=["GET", "POST"])
+def purchaseProperty(property_id):
+    userId = request.form['userId']
+    userName = request.form['userName']
+
+    buyer = Client.query.get(userId)
+    seller = Client.query.get(Property.query.get(property_id).property_client_id)
+    property = Property.query.get(property_id)
+
+    if userName != buyer.name:
+        return "INVALID ACCOUNT"
+    else:
+        transactionMaxId = db.session.query(func.max(Transaction.transaction_id)).scalar()
+        transaction_b_id = transactionMaxId + 1
+        transaction_s_id = transaction_b_id + 1
+        now = datetime.now()
+        transaction_b = Transaction(
+            transaction_id=transaction_b_id,
+            transaction_client_id=buyer.client_id,
+            transaction_agent_id=buyer.agent_id,
+            transaction_property_id=property.property_id,
+            transaction_type=1,
+            date=now.strftime("%Y-%m-%d")
+        )
+
+        transaction_s = Transaction(
+            transaction_id=transaction_s_id,
+            transaction_client_id=seller.client_id,
+            transaction_agent_id=seller.agent_id,
+            transaction_property_id=property.property_id,
+            transaction_type=0,
+            date=now.strftime("%Y-%m-%d")
+        )
+
+        db.session.add(transaction_b)
+        db.session.commit()
+        db.session.add(transaction_s)
+        db.session.commit()
+
+        return redirect(url_for('properties'))
+
 
 @app.route("/transactions")
 def transactions():

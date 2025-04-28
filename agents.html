@@ -12,6 +12,7 @@
             <th>Firm</th>
             <th>Email</th>
             <th>Phone</th>
+            <th>Id</th>
         </tr>
         {% for agent in agents %}
         <tr>
@@ -19,6 +20,7 @@
             <th>{{agent.firm.name}}</th>
             <th>{{agent.contact_info.email_address}}</th>
             <th>{{agent.contact_info.phoneNumber}}</th>
+            <th style="width:100px">{{agent.agentID}}</th>
         </tr>
         {% endfor %}
     </table>
