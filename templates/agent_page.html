@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+<h1>Welcome, {{agent.name}}</h1>
+
+<h3>Your Id: {{agent.agentID}}</h3>
+<h3>Your Firm: {{agent.firm.name}}</h3>
+<h3>Commision rate: {{agent.commission_rate}}%</h3>
+
+<h3>Your Clients:</h3>
+<table>
+    {% if clients | length == 0 %}
+    <tr>
+        <th>You currently have no clients.</th>
+    </tr>
+    {% else %}
+    <tr>
+        <th>Name</th>
+        <th style="width:200px">Email</th>
+        <th>Phone</th>
+    </tr>
+    {% for client in clients %}
+    <tr>
+        <th>{{client.name}}</th>
+        <th>{{client.contact_info.email_address}}</th>
+        <th>{{client.contact_info.phoneNumber}}</th>
+    </tr>
+    {% endfor %}
+    {% endif%}
+</table>
+
+<h3>Brokered Transactions:</h3>
+<table>
+    <tr>
+        <th>Date</th>
+        <th style="width:100px">Type</th>
+        <th style="width:400px">Property</th>
+        <th style="width:200px">Client</th>
+    </tr>
+    {% for transaction in transactions %}
+    <tr>
+        <th>{{transaction.date}}</th>
+        {% if transaction.transaction_type %}
+            <th>BOUGHT</th>
+        {% else %}
+            <th>SOLD</th>
+        {% endif %}
+        <th>{{transaction.property.address}}</th>
+        <th>{{transaction.client.name}}</th>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

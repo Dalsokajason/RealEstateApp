@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+<h1 id="welcome">Welcome</h1>
+<section>
+    <form method="POST" action="/signIn">
+        <label for="userType">Sign in as:</label>
+        <select name="userType" id="userType">
+            <option value="client">Client</option>
+            <option value="agent">Agent</option>
+        </select>
+        <br>
+        <label for="userId">Enter your id:</label>
+        <input type="number" name="userId" placeholder="Enter here">
+        <button type="submit" style="background-color:rgb(47, 168, 102); color:white;">
+            Sign In
+        </button>
+    </form>
+</section>
+<div id="signup-button-section" class="center">
+    <a class="button" href="/client_sign_up_page">Client Sign Up</a>
+    <a class="button" href="/agent_sign_up_page">Agent Sign Up</a>
+</div>
+{% endblock %}

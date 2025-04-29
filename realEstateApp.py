@@ -10,7 +10,7 @@ from datetime import datetime
 app = Flask(__name__)
 
 #Configuration for mySQL
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:password@localhost/customer_relationship_management_system'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Jaga2704!@localhost/customer_relationship_management_system'
 db = SQLAlchemy(app)
 
 class Firm(db.Model):

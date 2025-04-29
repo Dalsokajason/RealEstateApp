@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+<h1>Available Properties</h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Address</th>
+        <th>Listed Price</th>
+        <th>Listing Agent</th>
+        <th>Lising Client</th>
+    </tr>
+    {% for property in properties %}
+    <tr>
+        <th>{{property.property_id}}</th>
+        <th>{{property.address}}</th>
+        <th>${{property.price}}</th>
+        <th>{{property.client.agent.name}}</th>
+        <th>{{property.client.name}}</th>
+        <th><a href="/purchase_property/{{ property.property_id }}">Purchase</a></th>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        {% block head %}
+        {% endblock %}
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}" />
+        <title>Real Estate App</title>
+    </head>
+
+    <body>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/agents">Agents</a>
+            <a href="/properties">Properties</a>
+        </nav>
+        <div class="page-content center">
+            {%block body %}
+            {% endblock %}
+        </div>
+    </body>
+
+</html>
