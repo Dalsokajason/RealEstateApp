@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+    <h1>Lets find an agent best for you,</h1>
+    <h3></h3>
+    <form method="POST" action="/findAgent">
+        <label for="userIntention">I'm looking to:</label>
+        <select name="userIntention" id="userIntention">
+            <option value="sell">Sell a property</option>
+            <option value="buy">Buy a property</option>
+            <option value="both">Sell and buy property</option>
+        </select>
+        <br>
+        <label for="userAgentPreference">I'd like a</label>
+        <select name="userAgentPreference" id="userAgentPreference">
+            <option value="0">More personal agent</option>
+            <option value="1">Highly demanded agent</option>
+        </select>
+        <br>
+        <button type="submit" style="background-color:rgb(47, 167, 101); color:white;">
+            Recommend me agents! 
+        </button>
+    </form>
+    <br>
+{% endblock %}
