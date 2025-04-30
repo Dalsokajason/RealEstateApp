@@ -4,7 +4,8 @@
 {% endblock %}
 
 {% block body %}
-<h1>Available Properties</h1>
+<div class="content">
+<h1 class="center page-header">Available Properties</h1>
 <table>
     <tr>
         <th>ID</th>
@@ -15,13 +16,14 @@
     </tr>
     {% for property in properties %}
     <tr>
-        <th>{{property.property_id}}</th>
-        <th>{{property.address}}</th>
-        <th>${{property.price}}</th>
-        <th>{{property.client.agent.name}}</th>
-        <th>{{property.client.name}}</th>
-        <th><a href="/purchase_property/{{ property.property_id }}">Purchase</a></th>
+        <td>{{property.property_id}}</td>
+        <td>{{property.address}}</td>
+        <td>${{property.price}}</td>
+        <td>{{property.client.agent.name}}</td>
+        <td>{{property.client.name}}</td>
+        <td><a href="/purchase_property/{{ property.property_id }}" class="anchor-button">Purchase</a></td>
     </tr>
     {% endfor %}
 </table>
+</div>
 {% endblock %}

@@ -18,14 +18,29 @@ h1{
     margin: 0;
 }
 
-input, select, button{
-    color: inherit;
+input, select, button, .anchor-button{
     font-family: inherit;
     font-size: inherit;
+    margin: 0% 2%;
+    padding: 1% 2%;
+    border-width: 2px;
+    border-radius: 5px;
 }
 
 input, select{
+    color: var(--var-dark);
     background-color: var(--var-light);
+    border-color: var(--var-dark);
+}
+
+button, .anchor-button {
+    margin: 0% 2%;
+    padding: 1% 2%;
+    background-color: var(--var-dark);
+    color: var(--var-light);
+    text-decoration: none;
+    text-align: center;
+    border: 2px solid, var(--var-light);
 }
 
 nav{
@@ -52,12 +67,23 @@ nav a:hover{
     cursor: pointer;
 }
 
+td{
+    padding: 1vh;
+}
+
 .center{
     margin: auto;
     display: flex;
     flex-direction: column; 
     align-items: center;
     justify-content: center;
+}
+
+.page-header{
+    width: 50vw;
+    padding-bottom: 3vh;
+    margin-bottom: 3vh;
+    border-bottom: 3px solid var(--var-dark);
 }
 
 .page-content{
@@ -70,21 +96,8 @@ nav a:hover{
     border-radius: 5vh;
 }
 
-button, .anchor-button {
-    display: inline-block;
-    margin: 0% 2%;
-    padding: 1% 2%;
-    background-color: var(--var-dark);
-    color: var(--var-light);
-    text-decoration: none;
-    border-radius: 5px;
-    text-align: center;
-    border: 2px solid, var(--var-light);
-}
-
-
 #signin-form{
-    width: 150%;
+    width: 35vw;
     display: flex;
     flex-direction: column; 
     gap: 1vh;
