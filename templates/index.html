@@ -5,23 +5,24 @@
 
 {% block body %}
 <h1 id="welcome">Welcome</h1>
-<section>
-    <form method="POST" action="/signIn">
+<div>
+    <form id="signin-form" method="POST" action="/signIn">
+        <section>
         <label for="userType">Sign in as:</label>
         <select name="userType" id="userType">
             <option value="client">Client</option>
             <option value="agent">Agent</option>
         </select>
-        <br>
+    </section>
+    <section>
         <label for="userId">Enter your id:</label>
-        <input type="number" name="userId" placeholder="Enter here">
-        <button type="submit" style="background-color:rgb(47, 168, 102); color:white;">
-            Sign In
-        </button>
+        <input type="number" min="1" name="userId" placeholder="Enter here">
+        <button type="submit">Sign In</button>
+    </section>
     </form>
-</section>
+</div>
 <div id="signup-button-section" class="center">
-    <a class="button" href="/client_sign_up_page">Client Sign Up</a>
-    <a class="button" href="/agent_sign_up_page">Agent Sign Up</a>
+    <a class="anchor-button" href="/client_sign_up_page">Client Sign Up</a>
+    <a class="anchor-button" href="/agent_sign_up_page">Agent Sign Up</a>
 </div>
 {% endblock %}

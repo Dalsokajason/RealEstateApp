@@ -1,26 +1,39 @@
 :root{
-    --var-eggshell: rgb(241, 233, 218);
-    --var-jade: rgb(47, 168, 102);
-    --var-eggplant: #52414C;
+    --var-light: rgb(241, 233, 218);
+    --var-red: rgb(227, 101, 91);
+    --var-green: rgb(54, 191, 116);
+    --var-blue: rgb(148, 167, 179);
+    --var-dark: rgb(82, 65, 76);
 }
 
 body{
     margin: 0;
-    background-color: var(--var-eggshell);
+    background-color: var(--var-light);
+    color: var(--var-dark);
     font-size: larger;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
+h1{
+    margin: 0;
+}
+
 input, select, button{
+    color: inherit;
     font-family: inherit;
     font-size: inherit;
 }
 
+input, select{
+    background-color: var(--var-light);
+}
+
 nav{
-    background-color: var(--var-eggplant);
+    background-color: var(--var-dark);
     width: 100%;
     height: 8vh;
     display: flex;
+    gap: 1vh;
     align-items: center;
     justify-content: center;
     position: sticky;
@@ -28,14 +41,14 @@ nav{
 }
 
 nav a {
-    color: var(--var-eggshell);
+    color: var(--var-light);
     text-decoration: none;
     padding: 0.5em;
 }
 
 nav a:hover{
-    background-color: var(--var-eggshell);
-    color: var(--var-eggplant);
+    background-color: var(--var-light);
+    color: var(--var-dark);
     cursor: pointer;
 }
 
@@ -47,35 +60,37 @@ nav a:hover{
     justify-content: center;
 }
 
-.page-content {
+.page-content{
     margin-top: 5vh;
     padding: 5vh;
+    gap: 3vh;
     width: 60%;
-    background-color: var(--var-jade);
+    background: var(--var-blue);
+    border: var(--var-dark) solid 3px;
     border-radius: 5vh;
 }
 
-.button{
+button, .anchor-button {
     display: inline-block;
-    margin: 2%;;
+    margin: 0% 2%;
     padding: 1% 2%;
-    background-color: var(--var-eggplant);
-    color: var(--var-eggshell);
+    background-color: var(--var-dark);
+    color: var(--var-light);
     text-decoration: none;
     border-radius: 5px;
     text-align: center;
+    border: 2px solid, var(--var-light);
 }
 
-.white-button{
-    background-color:white;
-    font-size: 24px;
-}
 
-#welcome{
-    margin: 2%;
+#signin-form{
+    width: 150%;
+    display: flex;
+    flex-direction: column; 
+    gap: 1vh;
 }
 
 #signup-button-section{
-    width:500px;
+    width: 100%;
     flex-direction: row;
 }
