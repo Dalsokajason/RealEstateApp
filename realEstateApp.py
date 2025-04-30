@@ -4,13 +4,17 @@ from flask_sqlalchemy import SQLAlchemy
 #from sqlalchemy.orm import aliased
 from sqlalchemy import and_, func
 from datetime import datetime
-#import mysql.connector
+#import env file
+from dotenv import load_dotenv
+load_dotenv()
+import os
 
 #Define App
 app = Flask(__name__)
 
 #Configuration for mySQL
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:password@localhost/customer_relationship_management_system'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://' + os.getenv("USER") + ':' + os.getenv("PASS") + '@' +  os.getenv("HOST") + '/customer_relationship_management_system'
+
 db = SQLAlchemy(app)
 
 class Firm(db.Model):
