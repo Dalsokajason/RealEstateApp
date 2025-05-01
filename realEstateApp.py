@@ -147,6 +147,10 @@ def clientSignUp():
 def find_agent():
     return render_template("find_agent.html")
 
+@app.route("/troll")
+def home():
+    return render_template("troll.html")
+
 #Advanced Funciton
 @app.route("/findAgent", methods=["POST"])
 def findAgent():

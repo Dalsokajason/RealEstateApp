@@ -17,26 +17,22 @@
     <br><br>
     <table>
         <tr>
-            <th style="width:300px">Address</th>
-            <th style="width:100px">Listed Price</th>
-            <th style="width:100px">Listing Agent</th>
-            <th style="width:100px">Lising Client</th>
+            <th>Address</th>
+            <th>Listed Price</th>
+            <th>Listing Agent</th>
+            <th>Lising Client</th>
         </tr>
         <tr>
-            <th>{{property.address}}</th>
-            <th>${{property.price}}</th>
-            <th>{{property.client.agent.name}}</th>
-            <th>{{property.client.name}}</th>
+            <td>{{property.address}}</td>
+            <td>${{property.price}}</td>
+            <td>{{property.client.agent.name}}</td>
+            <td>{{property.client.name}}</td>
         </tr>
     </table>
-    <button type="submit" style="background-color:rgb(47, 167, 101); color:white">
-        CONFIRM
-    </button>
+    <button type="submit">CONFIRM</button>
 </form>
-<a href="/properties">
-    <button style="background-color:rgb(47, 167, 101); color:white">
+<a class="anchor-button" href="/properties">
         CANCEL
-    </button>
 </a>
 <br>
 <br>

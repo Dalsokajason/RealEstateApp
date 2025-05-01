@@ -16,15 +16,15 @@
         </tr>
         {% for transaction in transactions %}
         <tr>
-            <th>{{transaction.date}}</th>
+            <td>{{transaction.date}}</td>
             {% if transaction.transaction_type%}
-            <th>BOUGHT</th>
+            <td>BOUGHT</td>
             {% else %}
-            <th>SOLD</th>
+            <td>SOLD</td>
             {% endif %}
-            <th>{{transaction.property.address}}</th>
-            <th>{{transaction.agent.name}}</th>
-            <th>{{transaction.client.name}}</th>
+            <td>{{transaction.property.address}}</td>
+            <td>{{transaction.agent.name}}</td>
+            <td>{{transaction.client.name}}</td>
         </tr>
         {% endfor %}
     </table>

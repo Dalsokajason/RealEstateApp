@@ -18,6 +18,37 @@ h1{
     margin: 0;
 }
 
+h3{
+    display: block;
+    margin: 1vh;
+}
+
+p{
+    width: 80%;
+}
+
+a{
+    color: var(--var-light);
+}
+
+iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: none;
+  }
+
+span{
+    display: flex;
+    align-items: center;
+    width: 550px;
+    margin-bottom: 1vh;
+}
+
+span select, span input{
+    width: 250px;
+    margin-left: auto;
+}
+
 input, select, button, .anchor-button{
     font-family: inherit;
     font-size: inherit;
@@ -67,6 +98,11 @@ nav a:hover{
     cursor: pointer;
 }
 
+form{
+    display: flex;
+    flex-direction: column;
+}
+
 td{
     padding: 1vh;
 }
@@ -87,7 +123,7 @@ td{
 }
 
 .page-content{
-    margin-top: 5vh;
+    margin: 5vh auto;
     padding: 5vh;
     gap: 3vh;
     width: 60%;
