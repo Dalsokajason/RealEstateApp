@@ -18,11 +18,9 @@
         <th style="width:200px">Property</th>
         <th style="width:200px">Agent</th>
     </tr>
-    {% if transactions | length ==0 %}
+    {% if transactions | length == 0 %}
     <tr>
-        <th></th>
-        <th>You have no transactions</th>
-        <th></th>
+        <p>You have no transactions.</p>
     </tr>
     {% else %}
     {% for transaction in transactions %}
@@ -50,7 +48,7 @@
     </tr>
     {% if properties | length == 0 %}
     <tr>
-        <th>You have no properties.</th>
+        <p>You have no properties.</p>
     </tr>
     {% else %}
     {% for property in properties %}

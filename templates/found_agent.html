@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+    <h1>Awesome! Here's an agent we found for you,</h1>
+    {% if userAgentPreference==0 %}
+        <h3>This agent can devote more time to you:</h3>
+        <table>
+            <tr>
+                <th>id</th>
+                <th style="width:200px">Name</th>
+                <th style="width:300px">Email</th>
+                <th style="width:200px">Phone</th>
+            </tr>
+            <tr>
+                <th>{{recommendedAgent.agentID}}</th>
+                <th>{{recommendedAgent.name}}</th>
+                <th>{{recommendedAgent.contact_info.email_address}}</th>
+                <th>{{recommendedAgent.contact_info.phoneNumber}}</th>
+            </tr>
+        </table>
+    {% elif userAgentPreference==1 %}
+        <h3>This agent is highly sought out:</h3>
+        <table>
+            <tr>
+                <th>id</th>
+                <th style="width:200px">Name</th>
+                <th style="width:300px">Email</th>
+                <th style="width:200px">Phone</th>
+            </tr>
+            <tr>
+                <th>{{recommendedAgent.agentID}}</th>
+                <th>{{recommendedAgent.name}}</th>
+                <th>{{recommendedAgent.contact_info.email_address}}</th>
+                <th>{{recommendedAgent.contact_info.phoneNumber}}</th>
+            </tr>
+        </table>
+    {% elif userAgentPreference==2 %}
+        <h3>This agent has great experience in helping you listing properties:</h3>
+        <table>
+            <tr>
+                <th style="width:100px">id</th>
+                <th style="width:200px">Name</th>
+                <th style="width:300px">Email</th>
+                <th style="width:200px">Phone</th>
+            </tr>
+            <tr>
+                <th>{{recommendedAgent.agentID}}</th>
+                <th>{{recommendedAgent.name}}</th>
+                <th>{{recommendedAgent.contact_info.email_address}}</th>
+                <th>{{recommendedAgent.contact_info.phoneNumber}}</th>
+            </tr>
+        </table>
+    {% elif userAgentPreference==3 %}
+        <h3>This agent has great experience in helping you buy properties:</h3>
+        <table>
+            <tr>
+                <th>id</th>
+                <th style="width:200px">Name</th>
+                <th style="width:300px">Email</th>
+                <th style="width:200px">Phone</th>
+            </tr>
+            <tr>
+                <th>{{recommendedAgent.agentID}}</th>
+                <th>{{recommendedAgent.name}}</th>
+                <th>{{recommendedAgent.contact_info.email_address}}</th>
+                <th>{{recommendedAgent.contact_info.phoneNumber}}</th>
+            </tr>
+        </table>
+    {% endif %}
+
+{% endblock %}

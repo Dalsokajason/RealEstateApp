@@ -143,6 +143,90 @@ def clientSignUp():
 
     return redirect(url_for("client_page", client_id=client_id))
 
+@app.route("/find_agent", methods=["GET", "POST"])
+def find_agent():
+    return render_template("find_agent.html")
+
+#Advanced Funciton
+@app.route("/findAgent", methods=["POST"])
+def findAgent():
+    userAgentPreference = request.form["userAgentPreference"]
+
+    agentCountOfClients = db.session.query(
+        Agent.agentID, 
+        func.count(Client.client_id).label('CountOfClients')
+        ).join(Client, Agent.agentID == Client.agent_id).group_by(Agent.agentID).all()
+    
+    agentCountOfSellTransactions = db.session.query(
+    Agent.agentID,
+    func.count(Transaction.transaction_id).label('transaction_count')
+    ).join(Transaction, Agent.agentID == Transaction.transaction_agent_id
+        ).filter(Transaction.transaction_type == 0
+            ).group_by(Agent.agentID
+                ).all()
+    for agentID, sells in agentCountOfSellTransactions:
+        print(f"Agent ID: {agentID}, Number of Transactions (type 0): {sells}")
+    agentCountOfBuyTransactions = db.session.query(
+    Agent.agentID,
+    func.count(Transaction.transaction_id).label('transaction_count')
+    ).join(Transaction, Agent.agentID == Transaction.transaction_agent_id
+        ).filter(Transaction.transaction_type == 1
+            ).group_by(Agent.agentID
+                ).all()
+    for agentID, buys in agentCountOfBuyTransactions:
+        print(f"Agent ID: {agentID}, Number of Transactions (type 1): {buys}")
+
+    smallestNumberOfClients = agentCountOfClients[0][1]
+    largestNumberOfClients = agentCountOfClients[0][1]
+    largestNumberOfSells = agentCountOfSellTransactions[0][1]
+    largestNumberOfBuys = agentCountOfBuyTransactions[0][1]
+
+    #this is for whe user wants to find an agent with the least clients
+    if userAgentPreference == "0":
+        recommendedAgent = Agent.query.get(agentCountOfClients[0][0])
+        for agentID, CountOfClients in agentCountOfClients:
+            if CountOfClients < smallestNumberOfClients:
+                smallestNumberOfClients = CountOfClients
+                recommendedAgent = Agent.query.get(agentID)
+        #print(f"Agent ID: {reccommendedAgent.agentID}, Number of Clients: {smallestNumberOfClients}, preference: {userAgentPreference}")
+    
+    #for when user wants to find an agent with the most clients
+    elif userAgentPreference == "1":
+        recommendedAgent = Agent.query.get(agentCountOfClients[0][0])
+        for agentID, CountOfClients in agentCountOfClients:
+            if CountOfClients > largestNumberOfClients:
+                largestNumberOfClients = CountOfClients
+                recommendedAgent = Agent.query.get(agentID)
+        #print(f"Agent ID: {reccommendedAgent.agentID}, Number of Clients: {largestNumberOfClients}, preference: {userAgentPreference}")
+
+    #this is if the user wants to find an agent based on sell transactions
+    elif userAgentPreference == "2":
+        recommendedAgent = Agent.query.get(agentCountOfSellTransactions[0][0])
+        for agentID, sells in agentCountOfSellTransactions:
+            if sells > largestNumberOfSells:
+                largestNumberOfSells = sells
+                recommendedAgent = Agent.query.get(agentID)
+        #print(f"Agent ID: {reccommendedAgent.agentID}, Number of Transactions (type 0): {largestNumberOfSells}, preference: {userAgentPreference}")
+
+    #this is if the user wants to find an agent based on buy transactions
+    elif userAgentPreference == "3":
+        recommendedAgent = Agent.query.get(agentCountOfBuyTransactions[0][0])
+        for agentID, buys in agentCountOfBuyTransactions:
+            if buys > largestNumberOfBuys:
+                largestNumberOfBuys = buys
+                recommendedAgent = Agent.query.get(agentID)
+        #print(f"Agent ID: {reccommendedAgent.agentID}, Number of Transactions (type 1): {largestNumberOfBuys}, preference: {userAgentPreference}")
+        
+
+    #print(f"Agent ID: {reccommendedAgent.agentID}, Name: {reccommendedAgent.name}, Preference: {userAgentPreference}")
+    return redirect(url_for("found_agent", recommendedAgentID=recommendedAgent.agentID, userAgentPreference=userAgentPreference))
+
+@app.route("/found_agent/<int:recommendedAgentID>/<int:userAgentPreference>", methods=["GET", "POST"])
+def found_agent(recommendedAgentID, userAgentPreference):
+    recommendedAgent = Agent.query.get(recommendedAgentID)
+    userAgentPreference = userAgentPreference
+    return render_template("found_agent.html", recommendedAgent=recommendedAgent, userAgentPreference=userAgentPreference)
+
 @app.route("/agent_sign_up_page", methods=["GET", "POST"])
 def agent_sign_up_page():
     firms = Firm.query.all()
